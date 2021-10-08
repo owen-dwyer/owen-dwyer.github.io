@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
+<!doctype html>
+<html>
 <head>
-    <title>Page Title</title>
+    <title>Neovis.js Simple Example</title>
     <style type="text/css">
         html, body {
             font: 16pt arial;
@@ -14,58 +13,69 @@
             border: 1px solid lightgray;
             font: 22pt arial;
         }
+
     </style>
 
-    <script src="https://cdn.neo4jlabs.com/neovis.js/v1.5.0/neovis.js"></script>
+    <!-- FIXME: load from dist -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/neo4j-driver"></script>
+    <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
 
 
-    <script
-    src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script>
 
+
+
+    
     <script type="text/javascript">
+		// define config car
+		// instantiate nodevis object
+		// draw
 
-        var viz;
+		var viz;
 
-        function draw() {
-            var config = {
-                container_id: "viz",
-                server_url: "neo4j+s://1069e392.databases.neo4j.io",
-                server_user: "neo4j",
-                server_password: "C315QwpDKsTlYkp1vC78I0kZTvO5x8RuHcHPhyUla7Y",
-                labels: {
-                    "Character": {
-                        "caption": "name",
-                        "size": "pagerank",
-                        "community": "community",
-                        "title_properties": [
-                            "name",
-                            "pagerank"
-                        ]
-                    }
-                },
-                relationships: {
-                    "INTERACTS": {
-                        "thickness": "weight",
-                        "caption": false
-                    }
-                },
-                initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN *"
-            };
+		function draw() {
+			var config = {
+				container_id: "viz",
+				server_url: "bolt://1069e392.databases.neo4j.io",
+				server_user: "neo4j",
+				server_password: "C315QwpDKsTlYkp1vC78I0kZTvO5x8RuHcHPhyUla7Y",
+				encrypted: "ENCRYPTION_ON",
+				trust: "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES",
+				labels: {
+					//"Character": "name",
+					"Character": {
+						"caption": "name",
+						"size": "pagerank",
+						"community": "community"
+						//"sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
+					}
+				},
+				relationships: {
+					"INTERACTS": {
+						"thickness": "weight",
+						"caption": false
+					}
+				},
+				initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m LIMIT 10"
+			};
 
-            viz = new NeoVis.default(config);
-            viz.render();
-        }
+			viz = new NeoVis.default(config);
+			viz.render();
+			console.log(viz);
+
+		}
     </script>
 </head>
-
 <body onload="draw()">
-    <div id="viz"></div>
-    Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
+<div id="viz"></div>
+
+
+Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
 <input type="submit" value="Submit" id="reload">
 <input type="submit" value="Stabilize" id="stabilize">
-</body> 
+
+
+</body>
 
 <script>
 	$("#reload").click(function() {
@@ -87,6 +97,4 @@
 	})
 
 </script>
-
-
 </html>
