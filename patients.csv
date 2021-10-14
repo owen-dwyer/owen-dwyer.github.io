@@ -1,0 +1,17 @@
+﻿patient_id,event_id,start_date,end_date,event_type,opcs4,opcs4_desc,icd10,icd10_desc,test_type,notes
+patient_001,event_001,10/10/2021 12:30,10/10/2021 12:30,test,,,,,FIT,
+patient_001,event_002,15/10/2021 10:00,15/10/2021 10:00,referral,,,,,,
+patient_001,event_003,15/10/2021 10:00,15/10/2021 10:00,diagnosis,,,C183,Malignant neoplasm of colon: Hepatic flexure,,
+patient_001,event_004,30/10/2021 12:00,30/10/2021 12:00,procedure,H083,Transverse colectomy and anastomosis NEC,,,,surgery
+patient_001,event_005,03/11/2021 13:15,03/11/2021 13:15,procedure,X352,Intraveneous chemotherapy,,,,chemo
+patient_001,event_006,05/11/2021 14:00,05/11/2021 14:00,procedure,X352,Intraveneous chemotherapy,,,,chemo
+patient_001,event_007,01/12/2021 14:00,01/12/2021 14:00,procedure,X352,Intraveneous chemotherapy,,,,chemo
+patient_002,event_008,01/01/20001 12:00,01/01/2001 12:00,test,,,,,FIT,
+patient_002,event_009,01/01/20001 12:01,02/01/2001 12:00,referral,,,,,,
+patient_002,event_010,01/01/20001 12:02,03/01/2001 12:00,diagnosis,,,C20,Malignan neoplasm of rectum,,
+patient_002,event_011,01/01/20001 12:03,04/01/2001 12:00,procedure,X701,Procurement of drugs for chemotherapy for neoplasm for regimens in Band 1 ,,,,chemo
+patient_002,event_012,01/01/20001 12:04,05/01/2001 12:00,procedure,H073,Right hemicolectomy and anastomosis NEC ,,,,surgery
+patient_002,event_013,01/01/20001 12:05,06/01/2001 12:00,procedure,X701,Procurement of drugs for chemotherapy for neoplasm for regimens in Band 1 ,,,,chemo
+patient_003,event_014,01/01/20001 12:06,07/01/2001 12:00,procedure,H333,Anterior resection of rectum and anastomosis of colon to rectum using staples,,,,
+patient_003,event_015,01/01/20001 12:07,08/01/2001 12:00,diagnosis,,,C19,Malignant neoplasm of rectosigmoid junction,,
+patient_003,event_016,01/01/20001 12:08,09/01/2001 12:00,procedure,X712,Procurement of drugs for chemotherapy for neoplasm for regimens in Band 2,,,,
