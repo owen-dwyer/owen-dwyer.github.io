@@ -77,10 +77,12 @@
 <div id="viz"></div>
 
 
-Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
-<input type="submit" value="Submit" id="reload">
+Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
 <input type="submit" value="Stabilize" id="stabilize">
 
+<hr>
+
+<input type="submit" value="FULL GRAPH" id="full_graph">
 <input type="submit" value="ALL PATIENTS" id="all_patients">
 
 
@@ -105,8 +107,13 @@ Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
 		viz.stabilize();
 	})
 
+
 	$("#all_patients").click(function() {
 		var query = "MATCH (n:patient) RETURN n"
+		update(query)
+	})
+	$("#full_graph").click(function() {
+		var query = "MATCH (n)-[r]->(m) RETURN n,r,m"
 		update(query)
 	})
 
