@@ -43,20 +43,27 @@
 				trust: "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES",
 				labels: {
 					//"Character": "name",
-					"Character": {
+					"event": {
 						"caption": "name",
-						"size": "pagerank",
-						"community": "community"
+						//"size": "pagerank",
+						//"community": "community"
 						//"sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
-					}
+					},
+                    [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
+                         "caption": "name",
+                    }
 				},
 				relationships: {
-					"INTERACTS": {
-						"thickness": "weight",
-						"caption": false
-					}
+					"precedes": {
+						"thickness": "defaultThicknessProperty",
+						"caption": "defaultCaption"
+					},
+                    [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
+                         "thickness": "defaultThicknessProperty",
+                         "caption": "defaultCaption"
+                    }
 				},
-				initial_cypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m LIMIT 10"
+				initial_cypher: "MATCH (n)-[r]->(m) RETURN n,r,m"
 			};
 
 			viz = new NeoVis.default(config);
@@ -73,6 +80,8 @@
 Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
 <input type="submit" value="Submit" id="reload">
 <input type="submit" value="Stabilize" id="stabilize">
+
+<input type="submit" value="ALL PATIENTS" id="all_patients">
 
 
 </body>
@@ -95,6 +104,16 @@ Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
 	$("#stabilize").click(function() {
 		viz.stabilize();
 	})
+
+	$("#all_patients").click(function() {
+		var query = "MATCH (n:patient) RETURN n"
+		update(query)
+	})
+
+	function update(query){
+		$("textarea#cypher").val(query);
+		viz.renderWithCypher(query);
+	}
 
 </script>
 </html>
