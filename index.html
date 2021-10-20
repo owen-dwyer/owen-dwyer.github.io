@@ -54,16 +54,20 @@
                     }
 				},
 				relationships: {
-					"precedes": {
-						"thickness": "defaultThicknessProperty",
-						"caption": "defaultCaption"
-					},
                     [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
                          "thickness": "defaultThicknessProperty",
                          "caption": "defaultCaption"
-                    }
+                    },
+					"precedes": {
+						"thickness": 1,
+						"caption": "name"
+					}
 				},
-				initial_cypher: "MATCH (n)-[r]->(m) RETURN n,r,m"
+				initial_cypher: "MATCH (n)-[r]->(m) RETURN n,r,m",
+				arrows:true,
+				hierarchical:true,
+				hierarchical_sort_method:'directed',
+				console_debug:true
 			};
 
 			viz = new NeoVis.default(config);
@@ -84,6 +88,9 @@ Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="su
 
 <input type="submit" value="FULL GRAPH" id="full_graph">
 <input type="submit" value="ALL PATIENTS" id="all_patients">
+<input type="submit" value="PATHWAYS" id="pathways">
+<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
+<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
 
 
 </body>
@@ -114,6 +121,18 @@ Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="su
 	})
 	$("#full_graph").click(function() {
 		var query = "MATCH (n)-[r]->(m) RETURN n,r,m"
+		update(query)
+	})
+	$("#pathways").click(function() {
+		var query = "MATCH (n)-[r:precedes]->(m) RETURN n,r,m"
+		update(query)
+	})
+	$("#pathways_events").click(function() {
+		var query = "MATCH (e1)-[r1:precedes]->(e2)-[r2]->(o:opcs4) RETURN e1,r1,e2,r2,o"
+		update(query)
+	})
+	$("#pathways_events_hierarchy").click(function() {
+		var query = "MATCH (e1)-[r1:precedes]->(e2)-[r2*]->(o:opcs4) RETURN e1,r1,e2,r2,o"
 		update(query)
 	})
 
