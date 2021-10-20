@@ -5,6 +5,7 @@
     <style type="text/css">
         html, body {
             font: 16pt arial;
+			margin:0;
         }
 
         #viz {
@@ -13,6 +14,45 @@
             border: 1px solid lightgray;
             font: 22pt arial;
         }
+
+		#header {
+			max-width:100%; 
+			height: 100px;
+			padding:2px;
+			display:flex;
+			flex-direction:row;
+			margin:0px;
+			border-bottom:3px solid black
+
+		}
+
+		#header img {
+			height:100%;
+			text-align: center;
+		}
+		.logo-container {
+			display:inline-block;
+			height:40px;
+			margin:0 auto;
+			vertical-align: middle;
+			text-align: center;
+			margin:auto;
+			white-space: nowrap;
+			padding-left: 20px;
+			padding-right:20px;
+
+		}
+		.logo-container span {
+			border:1px solid orange;
+		}
+
+		#main-block{
+			margin:10px;
+		}
+
+		#header-text {
+			width: 100%;
+		}
 
     </style>
 
@@ -78,20 +118,41 @@
     </script>
 </head>
 <body onload="draw()">
-<div id="viz"></div>
+
+<div id="header">
+
+	<div class="logo-container", id="header-text">
+		<div>Pathways KG Demo</div>
+	</div>
+	<div class="logo-container">
+		<img src="media/Ox_cs.png"/>
+	</div>
+	<div class="logo-container">
+		<img src="media/tuw.svg"/>
+	</div>
+	<div class="logo-container">
+		<img src="media/cdt.png"/>
+		<img src="media/BDI+OX.jpg"/>
+	</div>
 
 
-Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
-<input type="submit" value="Stabilize" id="stabilize">
+</div>
 
-<hr>
+<div id="main-block">
+	<div id="viz"></div>
 
-<input type="submit" value="FULL GRAPH" id="full_graph">
-<input type="submit" value="ALL PATIENTS" id="all_patients">
-<input type="submit" value="PATHWAYS" id="pathways">
-<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
-<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
 
+	Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
+	<input type="submit" value="Stabilize" id="stabilize">
+
+	<hr>
+
+	<input type="submit" value="FULL GRAPH" id="full_graph">
+	<input type="submit" value="ALL PATIENTS" id="all_patients">
+	<input type="submit" value="PATHWAYS" id="pathways">
+	<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
+	<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
+</div>
 
 </body>
 
@@ -142,4 +203,6 @@ Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="su
 	}
 
 </script>
+
+
 </html>
