@@ -71,6 +71,25 @@
 		// instantiate nodevis object
 		// draw
 
+		function getOPCSLevel(neo4jObject) {
+			title = neo4jObject.properties["name"]
+			console.log(title)
+			console.log(title.length)
+			length = title.length
+
+			if (title=='procedures') {
+				level = 6
+			} else if (length>=5) {
+				level = 5
+			} else {
+				level = length
+			}
+			return level
+		}
+
+
+		
+
 		var viz;
 
 		function draw() {
@@ -148,6 +167,10 @@
 								level:3,
 								color:'#78BE20'
 							},
+							function: {
+								level: (props) => getOPCSLevel(props)
+
+							}
 						}
 					},
 					"diagnosis": {
@@ -156,6 +179,10 @@
 								level:3,
 								color:'#AE2573'
 							},
+							function: { // same as label advance function
+								//label: NeoVis.objectToTitleString // putting caption on the title
+								//label: (props) => NeoVis.objectToTitleString(props, ["name"])
+							}
 						}
 					},
                     [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
@@ -171,7 +198,7 @@
 				relationships: {
                     [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
                          "thickness": "defaultThicknessProperty",
-                         "caption": true
+                         //"caption": true
                     },
 					"precedes": {
 						"thickness": 1,
