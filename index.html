@@ -59,7 +59,7 @@
     <!-- FIXME: load from dist -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/neo4j-driver"></script>
-    <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+	<script src="https://unpkg.com/neovis.js@2.0.0-alpha.7"></script>
 
 
 
@@ -75,39 +75,113 @@
 
 		function draw() {
 			var config = {
-				container_id: "viz",
-				server_url: "bolt://1069e392.databases.neo4j.io",
-				server_user: "neo4j",
-				server_password: "C315QwpDKsTlYkp1vC78I0kZTvO5x8RuHcHPhyUla7Y",
-				encrypted: "ENCRYPTION_ON",
-				trust: "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES",
+				containerId: "viz",
+				neo4j: {
+					serverUrl: "bolt://1069e392.databases.neo4j.io",
+					serverUser: "neo4j",
+					serverPassword: "C315QwpDKsTlYkp1vC78I0kZTvO5x8RuHcHPhyUla7Y",
+					driverConfig: {
+						encrypted: "ENCRYPTION_ON",
+						trust: "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES"
+					}
+				},
+
+				visConfig: {
+					// https://visjs.github.io/vis-network/docs/network/
+					edges: {
+						arrows: {
+							to:{enabled:true}
+						}
+					},
+					layout: {
+						hierarchical: {
+							enabled: true,
+							sortMethod: 'directed',
+							shakeTowards: 'roots',
+							edgeMinimization: false,
+							levelSeparation:300
+						}
+					},
+					nodes : {
+						shape: 'dot',
+					}
+					//hierarchical:true,
+					//hierarchical_sort_method:'directed',
+					//consoleDebug:true
+
+				},
+ 
+				
 				labels: {
 					//"Character": "name",
 					"event": {
-						"caption": "name",
+
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
+							function: {
+								
+							},
+							static: { // everything here will be copied directly to the vis.js's node object
+								font: {
+									color: "#000000"
+								},
+								level: 2,
+								color:"#005EB8"
+							},
+						}
+
 						//"size": "pagerank",
 						//"community": "community"
 						//"sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
 					},
+
+					"patient": {
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
+							static: { // everything here will be copied directly to the vis.js's node object
+								level:1,
+								color:'#768692'
+							},
+						}
+					},
+					"opcs4": {
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
+							static: { // everything here will be copied directly to the vis.js's node object
+								level:3,
+								color:'#78BE20'
+							},
+						}
+					},
+					"diagnosis": {
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
+							static: { // everything here will be copied directly to the vis.js's node object
+								level:3,
+								color:'#AE2573'
+							},
+						}
+					},
                     [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
-                         "caption": "name",
+                         label: "name",
+						 [NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
+							static: { // everything here will be copied directly to the vis.js's node object
+								level:4
+							}
+						 }
+
                     }
 				},
 				relationships: {
                     [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
                          "thickness": "defaultThicknessProperty",
-                         "caption": "defaultCaption"
+                         "caption": true
                     },
 					"precedes": {
 						"thickness": 1,
-						"caption": "name"
+						value: "name"
 					}
 				},
-				initial_cypher: "MATCH (n)-[r]->(m) RETURN n,r,m",
-				arrows:true,
-				hierarchical:true,
-				hierarchical_sort_method:'directed',
-				console_debug:true
+
+
+				initialCypher: "MATCH (n)-[r]->(m) RETURN n,r,m",
+
 			};
 
 			viz = new NeoVis.default(config);
@@ -140,8 +214,6 @@
 
 <div id="main-block">
 	<div id="viz"></div>
-
-
 	Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
 	<input type="submit" value="Stabilize" id="stabilize">
 
@@ -152,8 +224,8 @@
 	<input type="submit" value="PATHWAYS" id="pathways">
 	<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
 	<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
+	
 </div>
-
 </body>
 
 <script>
