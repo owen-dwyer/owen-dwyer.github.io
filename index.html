@@ -1,307 +1,65 @@
 <!doctype html>
 <html>
-<head>
-    <title>Neovis.js Simple Example</title>
-    <style type="text/css">
-        html, body {
-            font: 16pt arial;
-			margin:0;
-        }
+	<head>
+		<title>Neovis.js Simple Example</title>
 
-        #viz {
-            width: 900px;
-            height: 700px;
-            border: 1px solid lightgray;
-            font: 22pt arial;
-        }
+		<!-- Stylesheet -->
+		<link rel="stylesheet" href="style.css">
 
-		#header {
-			max-width:100%; 
-			height: 100px;
-			padding:2px;
-			display:flex;
-			flex-direction:row;
-			margin:0px;
-			border-bottom:3px solid black
-
-		}
-
-		#header img {
-			height:100%;
-			text-align: center;
-		}
-		.logo-container {
-			display:inline-block;
-			height:40px;
-			margin:0 auto;
-			vertical-align: middle;
-			text-align: center;
-			margin:auto;
-			white-space: nowrap;
-			padding-left: 20px;
-			padding-right:20px;
-
-		}
-		.logo-container span {
-			border:1px solid orange;
-		}
-
-		#main-block{
-			margin:10px;
-		}
-
-		#header-text {
-			width: 100%;
-		}
-
-    </style>
-
-    <!-- FIXME: load from dist -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/neo4j-driver"></script>
-	<script src="https://unpkg.com/neovis.js@2.0.0-alpha.7"></script>
-
-
-
-
-
-    
-    <script type="text/javascript">
-		// define config car
-		// instantiate nodevis object
-		// draw
-
-		function getOPCSLevel(neo4jObject) {
-			title = neo4jObject.properties["name"]
-			console.log(title)
-			console.log(title.length)
-			length = title.length
-
-			if (title=='procedures') {
-				level = 6
-			} else if (length>=5) {
-				level = 5
-			} else {
-				level = 7-length
-			}
-			return level
-		}
-
-
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 		
+		<!-- Neo4j driver -->
+		<script src="https://unpkg.com/neo4j-driver"></script>
 
-		var viz;
+		<!-- NeoVis -->
+		<script src="https://unpkg.com/neovis.js@2.0.0-alpha.7"></script>
 
-		function draw() {
-			var config = {
-				containerId: "viz",
-				neo4j: {
-					serverUrl: "bolt://1069e392.databases.neo4j.io",
-					serverUser: "neo4j",
-					serverPassword: "C315QwpDKsTlYkp1vC78I0kZTvO5x8RuHcHPhyUla7Y",
-					driverConfig: {
-						encrypted: "ENCRYPTION_ON",
-						trust: "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES"
-					}
-				},
+		<!-- Custom script -->
+		<script src="vis-window.js"></script>
 
-				visConfig: {
-					// https://visjs.github.io/vis-network/docs/network/
-					edges: {
-						arrows: {
-							to:{enabled:true}
-						}
-					},
-					layout: {
-						hierarchical: {
-							enabled: true,
-							sortMethod: 'directed',
-							shakeTowards: 'roots',
-							edgeMinimization: false,
-							levelSeparation:300
-						}
-					},
-					nodes : {
-						shape: 'dot',
-					}
-					//hierarchical:true,
-					//hierarchical_sort_method:'directed',
-					//consoleDebug:true
+	</head>
+	<body onload="draw()">
 
-				},
- 
-				
-				labels: {
-					//"Character": "name",
-					"event": {
+		<div id="header">
 
-						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
-							function: {
-								
-							},
-							static: { // everything here will be copied directly to the vis.js's node object
-								font: {
-									color: "#000000"
-								},
-								level: 2,
-								color:"#005EB8"
-							},
-						}
+			<div class="logo-container", id="header-text">
+				<div>Pathways KG Demo</div>
+			</div>
+			<div class="logo-container">
+				<img src="media/Ox_cs.png"/>
+			</div>
+			<div class="logo-container">
+				<img src="media/tuw.svg"/>
+			</div>
+			<div class="logo-container">
+				<img src="media/cdt.png"/>
+				<img src="media/BDI+OX.jpg"/>
+			</div>
 
-						//"size": "pagerank",
-						//"community": "community"
-						//"sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
-					},
+		</div>
 
-					"patient": {
-						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
-							static: { // everything here will be copied directly to the vis.js's node object
-								level:1,
-								color:'#768692'
-							},
-						}
-					},
-					"opcs4": {
-						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
-							static: { // everything here will be copied directly to the vis.js's node object
-								level:3,
-								color:'#78BE20'
-							},
-							function: {
-								level: (props) => getOPCSLevel(props)
+		<div id="main-block">
 
-							}
-						}
-					},
-					"diagnosis": {
-						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
-							static: { // everything here will be copied directly to the vis.js's node object
-								level:3,
-								color:'#AE2573'
-							},
-							function: { // same as label advance function
-								//label: NeoVis.objectToTitleString // putting caption on the title
-								//label: (props) => NeoVis.objectToTitleString(props, ["name"])
-							}
-						}
-					},
-                    [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
-                         label: "name",
-						 [NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
-							static: { // everything here will be copied directly to the vis.js's node object
-								level:4
-							}
-						 }
+			<!-- Visualisation window -->
+			<div id="viz"></div>
 
-                    }
-				},
-				relationships: {
-                    [NeoVis.NEOVIS_DEFAULT_CONFIG]: {
-                         "thickness": "defaultThicknessProperty",
-                         //"caption": true
-                    },
-					"precedes": {
-						"thickness": 1,
-						value: "name"
-					}
-				},
+			<!-- Controls -->
+			Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
+			<input type="submit" value="Stabilize" id="stabilize">
 
+			<hr>
 
-				initialCypher: "MATCH (n)-[r]->(m) RETURN n,r,m",
+			<input type="submit" value="FULL GRAPH" id="full_graph">
+			<input type="submit" value="ALL PATIENTS" id="all_patients">
+			<input type="submit" value="PATHWAYS" id="pathways">
+			<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
+			<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
+			
+		</div>
+	</body>
 
-			};
-
-			viz = new NeoVis.default(config);
-			viz.render();
-			console.log(viz);
-
-		}
-    </script>
-</head>
-<body onload="draw()">
-
-<div id="header">
-
-	<div class="logo-container", id="header-text">
-		<div>Pathways KG Demo</div>
-	</div>
-	<div class="logo-container">
-		<img src="media/Ox_cs.png"/>
-	</div>
-	<div class="logo-container">
-		<img src="media/tuw.svg"/>
-	</div>
-	<div class="logo-container">
-		<img src="media/cdt.png"/>
-		<img src="media/BDI+OX.jpg"/>
-	</div>
-
-
-</div>
-
-<div id="main-block">
-	<div id="viz"></div>
-	Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
-	<input type="submit" value="Stabilize" id="stabilize">
-
-	<hr>
-
-	<input type="submit" value="FULL GRAPH" id="full_graph">
-	<input type="submit" value="ALL PATIENTS" id="all_patients">
-	<input type="submit" value="PATHWAYS" id="pathways">
-	<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
-	<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
-	
-</div>
-</body>
-
-<script>
-	$("#reload").click(function() {
-
-		var cypher = $("#cypher").val();
-
-		if (cypher.length > 3) {
-			viz.renderWithCypher(cypher);
-		} else {
-			console.log("reload");
-			viz.reload();
-
-		}
-
-	});
-
-	$("#stabilize").click(function() {
-		viz.stabilize();
-	})
-
-
-	$("#all_patients").click(function() {
-		var query = "MATCH (n:patient) RETURN n"
-		update(query)
-	})
-	$("#full_graph").click(function() {
-		var query = "MATCH (n)-[r]->(m) RETURN n,r,m"
-		update(query)
-	})
-	$("#pathways").click(function() {
-		var query = "MATCH (n)-[r:precedes]->(m) RETURN n,r,m"
-		update(query)
-	})
-	$("#pathways_events").click(function() {
-		var query = "MATCH (e1)-[r1:precedes]->(e2)-[r2]->(o:opcs4) RETURN e1,r1,e2,r2,o"
-		update(query)
-	})
-	$("#pathways_events_hierarchy").click(function() {
-		var query = "MATCH (e1)-[r1:precedes]->(e2)-[r2*]->(o:opcs4) RETURN e1,r1,e2,r2,o"
-		update(query)
-	})
-
-	function update(query){
-		$("textarea#cypher").val(query);
-		viz.renderWithCypher(query);
-	}
-
-</script>
-
+	<!-- Click events -->
+	<script src="click-events.js"></script>
 
 </html>
