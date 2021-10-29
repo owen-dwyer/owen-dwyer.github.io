@@ -19,10 +19,28 @@ var viz;
 // tooltip
 //const element = document.createElement("div");   
 
-function createHTMLTitle(html, props) {
+function createHTMLTitle(props) {
     var element = document.createElement("div");
-    element.innerHTML = html;
-    element.innerHTML += props.properties["name"]
+
+    // NODE ATTRIBUTES:
+    // identity, labels, properties
+
+    //RSHIP ATTRIBUTES:
+    // identity, start, end, type, properties
+
+
+    if (props.__isNode__ == true) {
+        element.innerHTML = "<div style='color:gray'> Entity </div> \n"
+        element.innerHTML += "<div>"+ props.properties["name"]+"</div> \n"
+
+    } else if (props.__isRelationship__ ==true ) {
+        element.innerHTML = "<div style='color:gray'> Relationship </div> \n"
+        element.innerHTML += "<div>"+ props.type+ "</div> \n"
+    }
+    //element.innerHTML += props.isRelationship
+
+    //element.innerHTML += isNode(props)
+
     return element;
 }
 
@@ -138,7 +156,7 @@ function draw() {
                         level:4
                     },
                     function: {
-                        title: (props) => createHTMLTitle("<span style='color:red'>TEEEEST</span>", props)
+                        title: (props) => createHTMLTitle(props)
 
                     }
                  }
