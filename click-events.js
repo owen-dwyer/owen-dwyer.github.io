@@ -41,3 +41,7 @@ function update(query){
     $("textarea#cypher").val(query);
     viz.renderWithCypher(query);
 }
+
+// Tooltip popups
+
+    

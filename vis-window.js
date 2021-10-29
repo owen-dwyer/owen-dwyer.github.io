@@ -16,7 +16,20 @@ function getOPCSLevel(neo4jObject) {
 
 var viz;
 
+// tooltip
+//const element = document.createElement("div");   
+
+function createHTMLTitle(html, props) {
+    var element = document.createElement("div");
+    element.innerHTML = html;
+    element.innerHTML += props.properties["name"]
+    return element;
+}
+
+const testElement = document.createElement("div");
+
 function draw() {
+
     var config = {
         containerId: "viz",
         neo4j: {
@@ -46,7 +59,15 @@ function draw() {
                 }
             },
             nodes : {
-                shape: 'dot',
+                shape: 'dot'            },
+            interaction: {
+                hoverConnectedEdges:true,
+                navigationButtons:false,
+                selectable:true,
+                tooltipDelay:0
+            },
+            configure: {
+                enabled:false
             }
             //hierarchical:true,
             //hierarchical_sort_method:'directed',
@@ -54,6 +75,7 @@ function draw() {
 
         },
 
+        
         
         labels: {
             //"Character": "name",
@@ -68,7 +90,7 @@ function draw() {
                             color: "#000000"
                         },
                         level: 2,
-                        color:"#005EB8"
+                        color:"#005EB8",
                     },
                 }
 
@@ -114,6 +136,10 @@ function draw() {
                  [NeoVis.NEOVIS_ADVANCED_CONFIG]: {// here you put node properties that aren't mapped directly from the neo4j node
                     static: { // everything here will be copied directly to the vis.js's node object
                         level:4
+                    },
+                    function: {
+                        title: (props) => createHTMLTitle("<span style='color:red'>TEEEEST</span>", props)
+
                     }
                  }
 
@@ -138,5 +164,23 @@ function draw() {
     viz = new NeoVis.default(config);
     viz.render();
     console.log(viz);
+
+
+
+    $(function () {
+        InitializeToolTip();
+    });
+
+    function InitializeToolTip() {    
+        $(".gridViewToolTip").tooltip({        
+           track: true,        
+           delay: 0,        
+           showURL: false,        
+           fade: 100,        
+           bodyHandler: function () {            
+              return $($(this).next().html());        
+           },        showURL: false    
+         });
+     }
 
 }
