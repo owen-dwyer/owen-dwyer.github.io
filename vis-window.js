@@ -28,10 +28,18 @@ function createHTMLTitle(props) {
     //RSHIP ATTRIBUTES:
     // identity, start, end, type, properties
 
-
     if (props.__isNode__ == true) {
         element.innerHTML = "<div style='color:gray'> Entity </div> \n"
-        element.innerHTML += "<div>"+ props.properties["name"]+"</div> \n"
+
+        description = props.properties["opcs4_text"]
+
+        if (typeof description == 'undefined') {
+            label = props.properties["name"]
+        }
+        else {
+            label = props.properties["opcs4_text"]
+        }
+        element.innerHTML += "<div>"+label+"</div> \n"
 
     } else if (props.__isRelationship__ ==true ) {
         element.innerHTML = "<div style='color:gray'> Relationship </div> \n"
