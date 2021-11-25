@@ -26,15 +26,17 @@
 			<div class="logo-container", id="header-text">
 				<div>Pathway Graph demo <span id="beta">beta</span></div>
 			</div>
-			<div class="logo-container">
-				<img src="media/Ox_cs.png"/>
-			</div>
-			<div class="logo-container">
-				<img src="media/tuw.svg"/>
-			</div>
-			<div class="logo-container">
-				<img src="media/cdt.png"/>
-				<img src="media/BDI+OX.jpg"/>
+			<div class="logo-container-container">
+				<div class="logo-container">
+					<img src="media/Ox_cs.png"/>
+				</div>
+				<div class="logo-container">
+					<img src="media/tuw.svg"/>
+				</div>
+				<div class="logo-container">
+					<img src="media/cdt.png"/>
+					<img src="media/BDI+OX.jpg"/>
+				</div>
 			</div>
 
 		</div>
@@ -45,23 +47,28 @@
 			<div id="viz"></div>
 
 			<!-- Controls -->
-			Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
-			<input type="submit" value="Stabilize" id="stabilize">
+			<div id="controls">
 
-			<br/>
-			Show: 
-			<input type="submit" value="FULL GRAPH" id="full_graph">
-			<input type="submit" value="ALL PATIENTS" id="all_patients">
-			<input type="submit" value="PATHWAYS" id="pathways">
-			<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
-			<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
+				Cypher query: <textarea rows="1" cols=50 id="cypher"></textarea> <input type="submit" value="Submit" id="reload">
+				<input type="submit" value="Stabilize" id="stabilize">
 
-			<div id="key">
-				<p style="background-color: #768692;">Patient</p>
-				<p style="background-color: #005EB8;">Event</p>
-				<p style="background-color: #AE2573;">Diagnosis (ICD10)</p>
-				<p style="background-color: #78BE20;">Procedure (OPCS4)</p>
+				<br/>
+				Show: 
+				<input type="submit" value="FULL GRAPH" id="full_graph">
+				<input type="submit" value="ALL PATIENTS" id="all_patients">
+				<input type="submit" value="PATHWAYS" id="pathways">
+				<input type="submit" value="PATHWAYS + EVENTS" id="pathways_events">
+				<input type="submit" value="PATHWAYS + EVENTS HIERARCHY" id="pathways_events_hierarchy">
+
+				<div id="key">
+					Key&nbsp;
+					<p style="background-color: #768692;">Patient</p>
+					<p style="background-color: #005EB8;">Event</p>
+					<p style="background-color: #AE2573;">Diagnosis (ICD10)</p>
+					<p style="background-color: #78BE20;">Procedure (OPCS4)</p>
+				</div>
 			</div>
+
 
 			<hr>
 
